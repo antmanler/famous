@@ -279,19 +279,18 @@ define(function(require, exports, module) {
             else if (size[1] === true) size[1] = target.clientHeight;
         }
 
-        if (_xyNotEquals(this._size, size)) {
-            if (!this._size) this._size = [0, 0];
-            this._size[0] = size[0];
-            this._size[1] = size[1];
+        if (_xyNotEquals(context.size, size)) {
+            // modify context's size
+            context.size = [size[0], size[1]];
+            // mark size dirty
             this._sizeDirty = true;
         }
 
+        if (_xyNotEquals(this._size, size)) this._sizeDirty = true;
+
         if (this._sizeDirty) {
-            if (this._size) {
-                target.style.width = (this.size && this.size[0] === true) ? '' : this._size[0] + 'px';
-                target.style.height = (this.size && this.size[1] === true) ?  '' : this._size[1] + 'px';
-            }
-            this._sizeDirty = false;
+            target.style.width = (this.size && this.size[0] === true) ? '' : size[0] + 'px';
+            target.style.height = (this.size && this.size[1] === true) ?  '' : size[1] + 'px';
         }
 
         if (this._contentDirty) {
